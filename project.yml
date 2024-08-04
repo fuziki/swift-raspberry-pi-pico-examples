@@ -1,0 +1,100 @@
+name: swift-raspberry-pi-pico-examples
+settings:
+  OTHER_LDFLAGS:
+    - "-Wl,-undefined,dynamic_lookup"
+targets:
+  pico-sdk:
+    type: framework
+    platform: macOS
+    sources:
+      - path: pico-sdk
+        type: folder
+      - path: built-headers
+        type: folder
+      - path: patchs
+        type: folder
+      - path: Dockerfile
+        type: file
+      - path: Makefile
+        type: file
+      - path: project.yml
+        type: file
+      - path: README.md
+        type: file
+      - path: LICENSE
+        type: file
+  ex00-pico-w-blink:
+    type: framework
+    platform: macOS
+    sources:
+      - path: ex00-pico-w-blink
+        excludes:
+          - "build/**"
+    settings:
+      SWIFT_OBJC_BRIDGING_HEADER: ex00-pico-w-blink/BridgingHeader.h
+      GCC_PREPROCESSOR_DEFINITIONS:
+        - "$(inherited)"
+        - "XCODE_WORKAROUND=1"
+        - "PICO_DEFAULT_UART_INSTANCE=1"
+      HEADER_SEARCH_PATHS:
+        - "$(inherited)"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_stdlib/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_gpio/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_base/include"
+        - "$(PROJECT_DIR)/built-headers/build/generated/pico_base"
+        - "$(PROJECT_DIR)/pico-sdk/src/boards/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_platform/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2040/hardware_regs/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_base/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2040/hardware_structs/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_claim/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_sync/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_irq/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_sync/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_time/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_timer/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_util/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_uart/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_resets/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_clocks/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_pll/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_vreg/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_watchdog/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_xosc/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_divider/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_runtime/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_printf/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_bit_ops/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_divider/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_double/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_float/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_malloc/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_bootrom/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_binary_info/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_stdio/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_stdio_usb/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_unique_id/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_flash/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/common/pico_usb_reset_interface/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_int64_ops/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_mem_ops/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/boot_stage2/include"
+        - "$(PROJECT_DIR)/pico-sdk/lib/tinyusb/src"
+        - "$(PROJECT_DIR)/pico-sdk/lib/tinyusb/src/common"
+        - "$(PROJECT_DIR)/pico-sdk/lib/tinyusb/hw"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_lwip/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_rand/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_cyw43_arch/include"
+        - "$(PROJECT_DIR)/pico-sdk/lib/cyw43-driver/src"
+        - "$(PROJECT_DIR)/pico-sdk/lib/cyw43-driver/firmware"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_cyw43_driver/cybt_shared_bus"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_pio/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_dma/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/hardware_exception/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_cyw43_driver/include"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/pico_async_context/include"
+        - "$(PROJECT_DIR)/built-headers/build/pico-sdk/src/rp2_common/pico_cyw43_driver"
+        - "$(PROJECT_DIR)/pico-sdk/src/rp2_common/cmsis/include"
+        - "$(PROJECT_DIR)/pico-sdk/lib/lwip/src/include"
+        - "$(PROJECT_DIR)/include"
