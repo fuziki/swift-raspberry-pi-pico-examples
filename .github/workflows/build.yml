@@ -25,7 +25,7 @@ jobs:
       run: |
         make clone-pico-sdk
         make docker-build
-        cd ${{ github.event.inputs.build-directory }} && docker run --rm -v $(shell pwd):/workspace swift-build-env-amd64 /workspace/build.sh
+        cd ${{ github.event.inputs.build-directory }} && docker run --rm -v $(pwd):/workspace swift-build-env-amd64 /workspace/build.sh
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
