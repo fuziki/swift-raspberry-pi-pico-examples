@@ -20,13 +20,19 @@ Follow these steps to build and upload the examples to your Raspberry Pi Pico.
     cd swift-raspberry-pi-pico-examples
     ```
 
-2. Build the Docker image:
+1. Clone pico-sdk:
+
+    ```sh
+    make clone-pico-sdk
+    ```
+
+1. Build the Docker image:
 
     ```sh
     make docker-build
     ```
 
-3. Build the `ex00-pico-w-blink` example:
+1. Build the `ex00-pico-w-blink` example:
 
     ```sh
     make build-ex00-pico-w-blink
