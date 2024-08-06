@@ -1,0 +1,31 @@
+name: Build and Upload uf2
+
+on:
+  workflow_dispatch:
+    inputs:
+      build-directory:
+        description: 'Directory to run make in'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Run make docker-run
+      run: |
+        make clone-pico-sdk
+        make docker-build
+        make docker-run -C ${{ github.event.inputs.build-directory }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: swift-app-uf2
+        path: ${{ github.event.inputs.build-directory }}/build/swift-app.uf2
