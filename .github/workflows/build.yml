@@ -21,7 +21,7 @@ jobs:
     - name: Run make docker-run
       env:
         # https://github.com/docker/compose/issues/5696
-        COMPOSE_INTERACTIVE_NO_CLI: '1'
+        COMPOSE_INTERACTIVE_NO_CLI: 1
       run: |
         make clone-pico-sdk
         make docker-build
