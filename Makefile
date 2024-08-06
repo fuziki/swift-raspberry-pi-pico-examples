@@ -20,3 +20,6 @@ project:
 
 build-ex00-pico-w-blink:
 	make docker-run -C ex00-pico-w-blink/
+
+build-ex01-hid-keyboard:
+	make docker-run -C ex01-hid-keyboard/
