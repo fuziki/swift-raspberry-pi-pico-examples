@@ -11,7 +11,7 @@ enum Blink: UInt32 {
 }
 
 // GPIO
-let button_a_pin: UInt32 = 17
+let button_cmd_b_pin: UInt32 = 16
 let led_pin: UInt32 = 15
 
 // Every 10ms, we will sent 1 report for each HID profile (keyboard, mouse etc ..)
@@ -31,9 +31,9 @@ struct Main {
         board_init()
         tusb_init()
 
-        gpio_init(button_a_pin)
-        gpio_set_dir(button_a_pin, false)
-        gpio_pull_up(button_a_pin)
+        gpio_init(button_cmd_b_pin)
+        gpio_set_dir(button_cmd_b_pin, false)
+        gpio_pull_up(button_cmd_b_pin)
 
         gpio_init(led_pin)
         gpio_set_dir(led_pin, true)
@@ -91,12 +91,12 @@ func hid_task() {
     if get_board_millis() - start_ms_for_hid_task < interval_ms { return } // not enough time
     start_ms_for_hid_task += interval_ms;
 
-    let button_a: Bool = !gpio_get(button_a_pin)
+    let button_cmd_b: Bool = !gpio_get(button_cmd_b_pin)
 
     // Remote wakeup
-    if tud_suspended() && button_a {
+    if tud_suspended() && button_cmd_b {
         // Wake up host if we are in suspend mode
-        // and REMOTE_WAKEUP feature is enabled by host
+        // and REMOTE_WAKEUP feature is enabled by hostbbbbbbbbbbbbbb
         tud_remote_wakeup()
     } else {
         // Send the 1st of report chain, the rest will be sent by tud_hid_report_complete_cb()
@@ -104,12 +104,13 @@ func hid_task() {
         // skip if hid is not ready yet
         if !tud_hid_ready() { return }
 
-        if button_a {
-            let keycode: UnsafeMutablePointer<UInt8> = malloc(6 * MemoryLayout<UInt8>.size)!.assumingMemoryBound(to: UInt8.self)
+        if button_cmd_b {
+            let keycode: UnsafeMutablePointer<UInt8> = malloc(6 * MemoryLayout<UInt8>.size)!
+                .assumingMemoryBound(to: UInt8.self)
             memset(keycode, 0, 6 * MemoryLayout<UInt8>.size)
 
-            keycode.advanced(by: 0).pointee = UInt8(HID_KEY_A)
-            tud_hid_keyboard_report(UInt8(REPORT_ID_KEYBOARD), 0, keycode)
+            keycode.advanced(by: 0).pointee = UInt8(HID_KEY_B)
+            tud_hid_keyboard_report(UInt8(REPORT_ID_KEYBOARD), UInt8(KEYBOARD_MODIFIER_LEFTGUI.rawValue), keycode)
             free(keycode)
 
             has_keyboard_key = true
@@ -127,7 +128,11 @@ func hid_task() {
 // Application can use this to send the next report
 // Note: For composite reports, report[0] is report ID
 @_cdecl("tud_hid_report_complete_cb")
-func tud_hid_report_complete_cb(_ instance: UInt8, _ report: UnsafeMutablePointer<UInt8>, _ len: UInt16) {}
+func tud_hid_report_complete_cb(
+    _ instance: UInt8,
+    _ report: UnsafeMutablePointer<UInt8>,
+    _ len: UInt16
+) {}
 
 // Invoked when received GET_REPORT control request
 // Application must fill buffer report's content and return its length.
