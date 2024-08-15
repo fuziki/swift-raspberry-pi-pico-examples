@@ -1,5 +1,7 @@
 FROM swiftlang/swift:nightly-main-jammy
 
+COPY Makefile .
+
 RUN apt-get update && apt-get install -y \
     gcc \
     cmake \
