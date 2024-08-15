@@ -11,11 +11,13 @@ RUN apt-get update && apt-get install -y \
     python3 \
     && apt-get clean
 
-RUN git clone --depth 1 -b 1.5.1 https://github.com/raspberrypi/pico-sdk.git \
-    && cd pico-sdk \
-    && git submodule update --init
+# RUN git clone --depth 1 -b 1.5.1 https://github.com/raspberrypi/pico-sdk.git \
+#     && cd pico-sdk \
+#     && git submodule update --init
 
-RUN git clone -b master https://github.com/raspberrypi/pico-examples.git
+# RUN git clone -b master https://github.com/raspberrypi/pico-examples.git
+
+RUN make clone-pico-sdk
 
 ENV PICO_SDK_PATH=/pico-sdk
 ENV PICO_TOOLCHAIN_PATH=/usr/bin/arm-none-eabi-gcc
