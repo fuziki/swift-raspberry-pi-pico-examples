@@ -1,5 +1,5 @@
 clone-pico-sdk:
-	git clone -b master https://github.com/raspberrypi/pico-sdk.git \
+	git clone --depth 1 -b 1.5.1 https://github.com/raspberrypi/pico-sdk.git \
 		&& cd pico-sdk \
 		&& git submodule update --init
 
