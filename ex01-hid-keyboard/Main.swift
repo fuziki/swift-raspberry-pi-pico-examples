@@ -96,7 +96,7 @@ func hid_task() {
     // Remote wakeup
     if tud_suspended() && button_cmd_b {
         // Wake up host if we are in suspend mode
-        // and REMOTE_WAKEUP feature is enabled by hostbbbbbbbbbbbbbb
+        // and REMOTE_WAKEUP feature is enabled by host
         tud_remote_wakeup()
     } else {
         // Send the 1st of report chain, the rest will be sent by tud_hid_report_complete_cb()
