@@ -18,8 +18,17 @@ docker-run:
 project:
 	xcrun --sdk macosx swift run --package-path tools xcodegen --spec project.yml
 
+build-ex00-empty:
+	make docker-run -C ex00-empty/
+
 build-ex00-pico-w-blink:
 	make docker-run -C ex00-pico-w-blink/
 
 build-ex01-hid-keyboard:
 	make docker-run -C ex01-hid-keyboard/
+
+build-ex02-pio-ws2812:
+	make docker-run -C ex02-pio-ws2812/
+
+screen:
+	. scripts/screen.sh

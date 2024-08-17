@@ -11,6 +11,8 @@ targets:
         type: folder
       - path: patchs
         type: folder
+      - path: scripts
+        type: folder
       - path: Dockerfile
         type: file
       - path: Makefile
@@ -21,6 +23,15 @@ targets:
         type: file
       - path: LICENSE
         type: file
+  ex00-empty:
+    type: framework
+    platform: macOS
+    sources:
+      - path: ex00-empty
+        excludes:
+          - "build/**"
+    settings:
+      SWIFT_OBJC_BRIDGING_HEADER: ex00-empty/BridgingHeader.h
   ex00-pico-w-blink:
     type: framework
     platform: macOS
