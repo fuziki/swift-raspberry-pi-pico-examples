@@ -1,10 +1,15 @@
-312a313,314
+119a120,123
+> #endif
+>
+> #ifdef XCODE_WORKAROUND
+> #define __packed
+312a317,318
 > #elif XCODE_WORKAROUND
 > #define __force_inline inline __attribute__((always_inline))
-337a340,343
+337a344,347
 > #ifdef XCODE_WORKAROUND
 > #define pico_default_asm(...) __asm ("")
 > #define pico_default_asm_volatile(...) __asm volatile ("")
 > #else
-339a346
+339a350
 > #endif

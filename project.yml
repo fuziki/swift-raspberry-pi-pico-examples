@@ -50,6 +50,15 @@ targets:
           - "build/**"
     settings:
       SWIFT_OBJC_BRIDGING_HEADER: ex01-hid-keyboard/BridgingHeader.h
+  ex02-pio-ws2812:
+    type: framework
+    platform: macOS
+    sources:
+      - path: ex02-pio-ws2812
+        excludes:
+          - "build/**"
+    settings:
+      SWIFT_OBJC_BRIDGING_HEADER: ex02-pio-ws2812/BridgingHeader.h
 settings:
   OTHER_LDFLAGS:
     - "-Wl,-undefined,dynamic_lookup"
