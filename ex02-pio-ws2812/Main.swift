@@ -12,6 +12,8 @@
 let LED_PIN: UInt32 = 17
 
 enum WS2812 {
+    static var ws2812ProgramForPio0: pio_program!
+
     case pio0
 
     var pio: PIO {
@@ -22,16 +24,16 @@ enum WS2812 {
     }
 
     func setup(ledPin: UInt32) {
-        let ws2812_program_instructions = malloc(4 * MemoryLayout<UInt16>.size)!
+        let ws2812ProgramInstructions = malloc(4 * MemoryLayout<UInt16>.size)!
             .assumingMemoryBound(to: UInt16.self)
-        ws2812_program_instructions.advanced(by: 0).pointee = 0x6221
-        ws2812_program_instructions.advanced(by: 1).pointee = 0x1123
-        ws2812_program_instructions.advanced(by: 2).pointee = 0x1400
-        ws2812_program_instructions.advanced(by: 3).pointee = 0xa442
+        ws2812ProgramInstructions.advanced(by: 0).pointee = 0x6221
+        ws2812ProgramInstructions.advanced(by: 1).pointee = 0x1123
+        ws2812ProgramInstructions.advanced(by: 2).pointee = 0x1400
+        ws2812ProgramInstructions.advanced(by: 3).pointee = 0xa442
 
-        var ws2812_program = pio_program(instructions: ws2812_program_instructions, length: 4, origin: -1)
+        Self.ws2812ProgramForPio0 = pio_program(instructions: ws2812ProgramInstructions, length: 4, origin: -1)
 
-        let offset = pio_add_program(pio, &ws2812_program)
+        let offset = pio_add_program(pio, &Self.ws2812ProgramForPio0)
         ws2812_program_init(pio, 0, offset, ledPin, 800000, false)
     }
 
@@ -48,15 +50,15 @@ struct Main {
 
         while true {
             WS2812.pio0.set(color: 0xFF000000)
-            sleep_ms(1000)
+            sleep_ms(500)
 
             // Green color (GRB format)
             WS2812.pio0.set(color: 0x00FF0000)
-            sleep_ms(1000)
+            sleep_ms(500)
 
             // Blue color (GRB format)
             WS2812.pio0.set(color: 0x0000FF00)
-            sleep_ms(1000)
+            sleep_ms(500)
         }
     }
 }
