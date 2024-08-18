@@ -11,49 +11,51 @@
 
 let LED_PIN: UInt32 = 17
 
-class WS2812 {
-    let ws2812_program_instructions: UnsafeMutablePointer<UInt16>
-    var ws2812_program: pio_program
+enum WS2812 {
+    case pio0
 
-    init(ledPin: UInt32) {
-        ws2812_program_instructions = malloc(4 * MemoryLayout<UInt16>.size)!
+    var pio: PIO {
+        switch self {
+        case .pio0:
+            get_pio0()
+        }
+    }
+
+    func setup(ledPin: UInt32) {
+        let ws2812_program_instructions = malloc(4 * MemoryLayout<UInt16>.size)!
             .assumingMemoryBound(to: UInt16.self)
         ws2812_program_instructions.advanced(by: 0).pointee = 0x6221
         ws2812_program_instructions.advanced(by: 1).pointee = 0x1123
         ws2812_program_instructions.advanced(by: 2).pointee = 0x1400
         ws2812_program_instructions.advanced(by: 3).pointee = 0xa442
 
-        ws2812_program = pio_program(instructions: ws2812_program_instructions, length: 4, origin: -1)
+        var ws2812_program = pio_program(instructions: ws2812_program_instructions, length: 4, origin: -1)
 
-        let offset = pio_add_program(get_pio0(), &ws2812_program)
-        ws2812_program_init(get_pio0(), 0, offset, ledPin, 800000, false)
+        let offset = pio_add_program(pio, &ws2812_program)
+        ws2812_program_init(pio, 0, offset, ledPin, 800000, false)
     }
 
     func set(color: UInt32) {
-        pio_sm_put_blocking(get_pio0(), 0, color)
+        pio_sm_put_blocking(pio, 0, color)
     }
-
-    // Removing this line will cause bugs.
-    func mayBeBug() {}
 }
 
 @main
 struct Main {
     static func main() {
         stdio_init_all()
-
-        let ws2812 = WS2812(ledPin: LED_PIN)
+        WS2812.pio0.setup(ledPin: LED_PIN)
 
         while true {
-            ws2812.set(color: 0xFF000000)
+            WS2812.pio0.set(color: 0xFF000000)
             sleep_ms(1000)
 
             // Green color (GRB format)
-            ws2812.set(color: 0x00FF0000)
+            WS2812.pio0.set(color: 0x00FF0000)
             sleep_ms(1000)
 
             // Blue color (GRB format)
-            ws2812.set(color: 0x0000FF00)
+            WS2812.pio0.set(color: 0x0000FF00)
             sleep_ms(1000)
         }
     }
