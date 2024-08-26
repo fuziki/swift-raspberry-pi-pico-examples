@@ -59,6 +59,15 @@ targets:
           - "build/**"
     settings:
       SWIFT_OBJC_BRIDGING_HEADER: ex02-pio-ws2812/BridgingHeader.h
+  ex03-kb2040:
+    type: framework
+    platform: macOS
+    sources:
+      - path: ex03-kb2040
+        excludes:
+          - "build/**"
+    settings:
+      SWIFT_OBJC_BRIDGING_HEADER: ex03-kb2040/BridgingHeader.h
 settings:
   OTHER_LDFLAGS:
     - "-Wl,-undefined,dynamic_lookup"

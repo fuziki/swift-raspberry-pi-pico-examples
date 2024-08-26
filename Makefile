@@ -30,5 +30,8 @@ build-ex01-hid-keyboard:
 build-ex02-pio-ws2812:
 	make docker-run -C ex02-pio-ws2812/
 
+build-ex03-kb2040:
+	make docker-run -C ex03-kb2040/
+
 screen:
 	. scripts/screen.sh
